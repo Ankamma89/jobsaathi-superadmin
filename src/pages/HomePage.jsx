@@ -41,7 +41,7 @@ const SuperAdminHome = () => {
     const [careerAdvancements, setCareerAdvancements] = useState([])
 
     async function getCareerAdvancements() {
-     
+
     }
 
     useEffect(() => {
@@ -77,29 +77,29 @@ const SuperAdminHome = () => {
             </div>
 
             {/* Link to Career Advancement Page */}
-            
+
 
             {/* Hirers and Jobseekers Management */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Hirers Section */}
-                <div className="bg-white p-6 rounded-lg shadow-md">
+                {hirers?.length > 0 && <div className="bg-white p-6 rounded-lg shadow-md">
                     <h2 className="text-lg font-semibold text-gray-800 mb-4">Manage Hirers</h2>
                     <HirersTable hirers={hirers} />
-                </div>
+                </div>}
                 {/* Jobseekers Section */}
-                <div className="bg-white p-6 rounded-lg shadow-md">
+                {jobSeekers?.length > 0 && <div className="bg-white p-6 rounded-lg shadow-md">
                     <h2 className="text-lg font-semibold text-gray-800 mb-4">Manage Jobseekers</h2>
                     <JobseekersTable jobSeekers={jobSeekers} />
-                </div>
+                </div>}
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
+            {jobs?.length > 0 && <div className="bg-white p-6 rounded-lg shadow-md">
                 <h2 className="text-lg font-semibold text-gray-800 mb-4">Manage Jobs</h2>
                 <JobsTable jobs={jobs} onDelete={handleJobDelete} />
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
+            </div>}
+            {tasks?.length > 0 && <div className="bg-white p-6 rounded-lg shadow-md">
                 <h2 className="text-lg font-semibold text-gray-800 mb-4">Manage Tasks</h2>
                 <TasksTable tasks={tasks} onDelete={handleTaskDelete} />
-            </div>
+            </div>}
         </div>
     );
 };
