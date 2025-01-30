@@ -2,11 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Users, Briefcase, CheckCircle, Activity } from "lucide-react";
 import axios from "axios";
 import { API_URL } from "../constants";
+import Pagination from "../components/Pagination";
+import JobsTable from "../components/JobsTable";
+import TasksTable from "../components/TasksTable";
+import HirersTable from "../components/HirersTable";
+import JobseekersTable from "../components/JobseekersTable";
+
 const SuperAdminHome = () => {
     const [hirers, setHirers] = useState([])
     const [jobSeekers, setJobSeekers] = useState([])
     const [tasks, setTasks] = useState([])
     const [jobs, setJobs] = useState([])
+    const jobsPerPage = 5; // Number of jobs per page
+
     useEffect(() => {
         getHirers()
     }, [])
@@ -30,7 +38,22 @@ const SuperAdminHome = () => {
         const response = await axios.get(`${API_URL}/admin-delete/job/${id}`)
         getHirers()
     }
+    const [careerAdvancements, setCareerAdvancements] = useState([])
 
+    async function getCareerAdvancements() {
+        const response = await axios.get(`${API_URL}/career-advancements`)
+        setCareerAdvancements(response.data)
+    }
+
+    useEffect(() => {
+        getCareerAdvancements()
+    }, [])
+
+    const careerAdvancementData = [
+        { title: "Courses", count: careerAdvancements.courses, icon: <Briefcase className="text-blue-500" /> },
+        { title: "Assessments", count: careerAdvancements.assessments, icon: <CheckCircle className="text-green-500" /> },
+        { title: "Mock Interviews", count: careerAdvancements.mockInterviews, icon: <Activity className="text-indigo-500" /> },
+    ];
     const overviewData = [
         { title: "Total Hirers", count: 120, icon: <Briefcase className="text-blue-500" /> },
         { title: "Total Jobseekers", count: 450, icon: <Users className="text-green-500" /> },
@@ -40,6 +63,7 @@ const SuperAdminHome = () => {
 
     return (
         <div className="p-6 space-y-6">
+
             {/* Overview Section */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 {overviewData.map((data, index) => (
@@ -53,113 +77,29 @@ const SuperAdminHome = () => {
                 ))}
             </div>
 
+            {/* Link to Career Advancement Page */}
+            
+
             {/* Hirers and Jobseekers Management */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Hirers Section */}
                 <div className="bg-white p-6 rounded-lg shadow-md">
                     <h2 className="text-lg font-semibold text-gray-800 mb-4">Manage Hirers</h2>
-                    <table className="w-full text-gray-800 border-collapse border border-gray-300">
-                        <thead>
-                            <tr className="bg-gray-100 text-left">
-                                <th className="border border-gray-300 px-4 py-2">Name</th>
-                                <th className="border border-gray-300 px-4 py-2">Company</th>
-                                <th className="border border-gray-300 px-4 py-2">Jobs</th>
-                                <th className="border border-gray-300 px-4 py-2">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {/* Sample data */}
-                            {hirers?.map((hirer) =>
-                                <tr>
-                                    <td className="border border-gray-300 px-4 py-2 max-w-28 overflow-hidden text-ellipsis">{hirer?.email}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{hirer?.profile_details[0]?.company_name}</td>
-                                    <td className="border border-gray-300 px-4 py-2">5</td>
-                                    <td className="border border-gray-300 px-4 py-2">
-                                        <button className="bg-red-500 text-white px-2 py-1 rounded-md">Ban</button>
-                                    </td>
-                                </tr>)}
-                        </tbody>
-                    </table>
+                    <HirersTable hirers={hirers} />
                 </div>
-
                 {/* Jobseekers Section */}
                 <div className="bg-white p-6 rounded-lg shadow-md">
                     <h2 className="text-lg font-semibold text-gray-800 mb-4">Manage Jobseekers</h2>
-                    <table className="w-full border-collapse border text-gray-800 border-gray-300">
-                        <thead>
-                            <tr className="bg-gray-100 text-left">
-                                <th className="border border-gray-300 px-4 py-2">Name</th>
-                                <th className="border border-gray-300 px-4 py-2">Email</th>
-                                <th className="border border-gray-300 px-4 py-2">Skills</th>
-                                <th className="border border-gray-300 px-4 py-2">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {/* Sample data */}
-                            {jobSeekers?.map((jobseeker) =>
-                                <tr className="bg-gray-100 text-left">
-                                    <td className="border border-gray-300 px-4 py-2">{jobseeker?.user_details[0]?.name}
-                                    </td>
-                                    <td className="border border-gray-300 px-4 py-2 max-w-28 overflow-hidden text-ellipsis">{jobseeker?.user_details[0]?.email}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{jobseeker?.user_details[0]?.skills}</td>
-                                    <td className="border border-gray-300 px-4 py-2">
-                                        <button className="bg-red-500 text-white px-2 py-1 rounded-md">Ban</button>
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                    <JobseekersTable jobSeekers={jobSeekers} />
                 </div>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md">
                 <h2 className="text-lg font-semibold text-gray-800 mb-4">Manage Jobs</h2>
-                <table className="w-full text-gray-800 border-collapse border border-gray-300">
-                    <thead>
-                        <tr className="bg-gray-100 text-left">
-                            <th className="border border-gray-300 px-4 py-2">Name</th>
-                            <th className="border border-gray-300 px-4 py-2">Company</th>
-                            <th className="border border-gray-300 px-4 py-2">Jobs</th>
-                            <th className="border border-gray-300 px-4 py-2">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* Sample data */}
-                        {jobs?.map((job) =>
-                            <tr>
-                                <td className="border border-gray-300 px-4 py-2 max-w-28 overflow-hidden text-ellipsis">{job?.job_title}</td>
-                                <td className="border border-gray-300 px-4 py-2">{job?.created_on}</td>
-                                <td className="border border-gray-300 px-4 py-2">{job?.budget}</td>
-                                <td className="border border-gray-300 px-4 py-2">
-                                    <button className="bg-red-500 text-white px-2 py-1 rounded-md" onClick={() => handleJobDelete(job?.job_id)}>Delete</button>
-                                </td>
-                            </tr>)}
-                    </tbody>
-                </table>
+                <JobsTable jobs={jobs} onDelete={handleJobDelete} />
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md">
                 <h2 className="text-lg font-semibold text-gray-800 mb-4">Manage Tasks</h2>
-                <table className="w-full text-gray-800 border-collapse border border-gray-300">
-                    <thead>
-                        <tr className="bg-gray-100 text-left">
-                            <th className="border border-gray-300 px-4 py-2">Name</th>
-                            <th className="border border-gray-300 px-4 py-2">Company</th>
-                            <th className="border border-gray-300 px-4 py-2">Jobs</th>
-                            <th className="border border-gray-300 px-4 py-2">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* Sample data */}
-                        {tasks?.map((task) =>
-                            <tr>
-                                <td className="border border-gray-300 px-4 py-2 max-w-28 overflow-hidden text-ellipsis">{task?.task_title}</td>
-                                <td className="border border-gray-300 px-4 py-2">{task?.created_on}</td>
-                                <td className="border border-gray-300 px-4 py-2">{task?.budget}</td>
-                                <td className="border border-gray-300 px-4 py-2">
-                                    <button className="bg-red-500 text-white px-2 py-1 rounded-md" onClick={() => handleTaskDelete(task?.task_id)}>Delete</button>
-                                </td>
-                            </tr>)}
-                    </tbody>
-                </table>
+                <TasksTable tasks={tasks} onDelete={handleTaskDelete} />
             </div>
         </div>
     );
