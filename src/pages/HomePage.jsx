@@ -41,8 +41,7 @@ const SuperAdminHome = () => {
     const [careerAdvancements, setCareerAdvancements] = useState([])
 
     async function getCareerAdvancements() {
-        const response = await axios.get(`${API_URL}/career-advancements`)
-        setCareerAdvancements(response.data)
+     
     }
 
     useEffect(() => {
