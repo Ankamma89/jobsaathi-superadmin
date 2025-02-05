@@ -38,7 +38,7 @@ function CreateInterviewSection() {
             qa
         };
         try {
-            const response = await axios.post(`${API_URL}/api/create-interview-qa`, newQa);
+            const response = await axios.post(`${API_URL}/api/create-interview-section`, newQa);
             if (response.status === 200) {
                 setData([...data, response.data]);
                 setTitle('');
@@ -66,7 +66,7 @@ function CreateInterviewSection() {
                                 name="title"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-lg bg-transparent"
+                                className="w-full p-2 text-gray-800 border border-gray-300 rounded-lg bg-transparent"
                                 required
                                 placeholder="Title"
                             />
@@ -77,7 +77,7 @@ function CreateInterviewSection() {
                                 name="description"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-lg bg-transparent"
+                                className="w-full p-2 border text-gray-800 border-gray-300 rounded-lg bg-transparent"
                                 required
                                 placeholder="Description"
                             ></textarea>
@@ -94,7 +94,7 @@ function CreateInterviewSection() {
                                         newQa[index].question = e.target.value;
                                         setQa(newQa);
                                     }}
-                                    className="w-full p-2 border border-gray-300 rounded-lg bg-transparent"
+                                    className="w-full p-2 border text-gray-800 border-gray-300 rounded-lg bg-transparent"
                                     required
                                     placeholder="Question"
                                 />
@@ -107,7 +107,7 @@ function CreateInterviewSection() {
                                         newQa[index].answer = e.target.value;
                                         setQa(newQa);
                                     }}
-                                    className="w-full p-2 border border-gray-300 rounded-lg bg-transparent"
+                                    className="w-full p-2 border text-gray-800 border-gray-300 rounded-lg bg-transparent"
                                     required
                                     placeholder="Answer"
                                 ></textarea>
