@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar';
 
 const CreateCourse = () => {
     const [courses, setCourses] = useState([]);
+    const [course, setCourse] = useState([]);
     const [newTitle, setNewTitle] = useState('');
     const [newDescription, setNewDescription] = useState('');
     const [newPrice, setNewPrice] = useState('');
@@ -19,7 +20,7 @@ const CreateCourse = () => {
     };
 
     const handleChange = (e) => {
-        setCourseData({
+        setCourse({
             ...courseData,
             [e.target.name]: e.target.value
         });
@@ -33,7 +34,7 @@ const CreateCourse = () => {
             price: newPrice
         };
         try {
-            const response = await fetch(`${API_URL}/api/courses`, {
+            const response = await fetch(`${API_URL}/api/create-course`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -67,7 +68,7 @@ const CreateCourse = () => {
                                 name="title"
                                 value={newTitle}
                                 onChange={(e) => setNewTitle(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-lg bg-transparent"
+                                className="w-full p-2 border border-gray-300 text-gray-800 rounded-lg bg-transparent"
                                 required
                                 placeholder="Title"
                             />
@@ -78,7 +79,7 @@ const CreateCourse = () => {
                                 name="description"
                                 value={newDescription}
                                 onChange={(e) => setNewDescription(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-lg bg-transparent"
+                                className="w-full p-2 border border-gray-300 text-gray-800 rounded-lg bg-transparent"
                                 required
                                 placeholder="Description"
                             ></textarea>
@@ -90,7 +91,7 @@ const CreateCourse = () => {
                                 name="price"
                                 value={newPrice}
                                 onChange={(e) => setNewPrice(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-lg bg-transparent"
+                                className="w-full p-2 border border-gray-300 text-gray-800 rounded-lg bg-transparent"
                                 required
                                 placeholder="Price"
                             />
