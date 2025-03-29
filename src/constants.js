@@ -1,1 +1,2 @@
-export const API_URL = import.meta.env.VITE_API_URL;
+const currentUrl = window.location.origin;
+export const API_URL = `${currentUrl}:5000`;
